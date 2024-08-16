@@ -2,7 +2,7 @@ from django.db import models
 
 
 class HikeUser(models.Model):
-    email = models.CharField(max_length=50, unique=True)
+    email = models.CharField(max_length=50)
     fam = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     otc = models.CharField(max_length=50)
@@ -52,6 +52,6 @@ class Pereval(models.Model):
 
 
 class Image(models.Model):
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True)
     title = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(upload_to='images', default=None, blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
