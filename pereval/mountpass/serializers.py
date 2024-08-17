@@ -25,7 +25,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class HikeUserSerializer(serializers.ModelSerializer):
     def save(self, **kwargs):
-        self.is_valid()
+        self.is_valid(raise_exception=True)
         user = HikeUser.objects.filter(email=self.validated_data.get('email'))
 
         if user.exists():
@@ -45,48 +45,33 @@ class HikeUserSerializer(serializers.ModelSerializer):
         fields = ['email', 'phone', 'fam', 'name', 'otc']
 
 
-class PerevalSerializer(WritableNestedModelSerializer):
-    add_time = serializers.DateTimeField(format='%d-%m-%Y %H:%M:%S', read_only=True)
+class PerevalSerializer(serializers.ModelSerializer):
+    # add_time = serializers.DateTimeField(format='%d-%m-%Y %H:%M:%S', read_only=True)
     user = HikeUserSerializer()
-    coords = CoordsSerializer()
+    coords = CoordsSerializer(allow_null=True)
     level = LevelSerializer(allow_null=True)
     images = ImageSerializer(many=True)
-    status = serializers.CharField(read_only=True)
+
+    # status = serializers.CharField(read_only=True)
 
     class Meta:
         model = Pereval
         fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect',
                   'add_time', 'status', 'user', 'coords', 'level', 'images']
-        read_only_fields = ['status']
+        read_only_fields = ['status', 'add_time']
 
-    # def create(self, validated_data, **kwargs):
-    #     user = validated_data.pop('user')
-    #     coords = validated_data.pop('coords')
-    #     level = validated_data.pop('level')
-    #     images = validated_data.pop('images')
-    #     user = HikeUser.objects.create(**user)
-    #     coords = Coords.objects.create(**coords)
-    #     level = Level.objects.create(**level)
-    #     pereval = Pereval.objects.create(**validated_data, user=user, coords=coords, level=level, status='new')
-    #
-    #     for img in images:
-    #         image = img.pop('image')
-    #         title = img.pop('title')
-    #         Image.objects.create(image=image, pereval=pereval, title=title)
-    #     return pereval
-    #
-    # def validate(self, data):
-    #     if self.instance:
-    #         instance_user = self.instance.user
-    #         data_user = data.get('user')
-    #         validating_user_fields = [
-    #             instance_user.email != data_user['email'],
-    #             instance_user.phone != data_user['phone'],
-    #             instance_user.fam != data_user['fam'],
-    #             instance_user.name != data_user['name'],
-    #             instance_user.otc != data_user['otc'],
-    #
-    #         ]
-    #         if data_user and any(validating_user_fields):
-    #             raise serializers.ValidationError('Отклонено: нельзя изменять данные пользователя')
-    #     return data
+    def create(self, validated_data, **kwargs):
+        user = validated_data.pop('user')
+        coords = validated_data.pop('coords')
+        level = validated_data.pop('level')
+        images = validated_data.pop('images')
+        user, created = HikeUser.objects.get_or_create(**user)
+        coords = Coords.objects.create(**coords)
+        level = Level.objects.create(**level)
+        pereval = Pereval.objects.create(**validated_data, user=user, coords=coords, level=level, status='new')
+
+        for img in images:
+            image = img.pop('image')
+            title = img.pop('title')
+            Image.objects.create(image=image, pereval=pereval, title=title)
+        return pereval

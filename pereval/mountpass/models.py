@@ -3,15 +3,15 @@ from django.db import models
 
 class HikeUser(models.Model):
     email = models.CharField(max_length=50)
-    fam = models.CharField(max_length=50)
-    name = models.CharField(max_length=50)
-    otc = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
+    fam = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True)
+    otc = models.CharField(max_length=50, blank=True)
+    phone = models.CharField(max_length=50, blank=True)
 
 class Coords(models.Model):
-    latitude = models.DecimalField(max_digits=8, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
-    height = models.IntegerField()
+    latitude = models.DecimalField(max_digits=8, decimal_places=6, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    height = models.IntegerField(null=True)
 
 
 class Level(models.Model):
@@ -52,6 +52,6 @@ class Pereval(models.Model):
 
 
 class Image(models.Model):
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True, related_name='images')
     title = models.CharField(max_length=50, blank=True)
     image = models.CharField(max_length=255, blank=True, null=True)
