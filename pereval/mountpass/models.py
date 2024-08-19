@@ -8,6 +8,7 @@ class HikeUser(models.Model):
     otc = models.CharField(max_length=50, blank=True)
     phone = models.CharField(max_length=50, blank=True)
 
+
 class Coords(models.Model):
     latitude = models.DecimalField(max_digits=8, decimal_places=6, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
@@ -32,7 +33,6 @@ class Level(models.Model):
 
 
 class Pereval(models.Model):
-
     STATUSES = [
         ('new', 'Новое'),
         ('pen', 'На рассмотрении'),

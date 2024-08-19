@@ -24,35 +24,17 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class HikeUserSerializer(serializers.ModelSerializer):
-    def save(self, **kwargs):
-        self.is_valid(raise_exception=True)
-        user = HikeUser.objects.filter(email=self.validated_data.get('email'))
-
-        if user.exists():
-            return user.first()
-        else:
-            new_user = HikeUser.objects.create(
-                email=self.validated_data.get('email'),
-                phone=self.validated_data.get('phone'),
-                fam=self.validated_data.get('fam'),
-                name=self.validated_data.get('name'),
-                otc=self.validated_data.get('otc'),
-            )
-            return new_user
-
     class Meta:
         model = HikeUser
         fields = ['email', 'phone', 'fam', 'name', 'otc']
 
 
 class PerevalSerializer(serializers.ModelSerializer):
-    # add_time = serializers.DateTimeField(format='%d-%m-%Y %H:%M:%S', read_only=True)
+    add_time = serializers.DateTimeField(format='%d-%m-%Y %H:%M:%S', read_only=True)
     user = HikeUserSerializer()
     coords = CoordsSerializer(allow_null=True)
     level = LevelSerializer(allow_null=True)
     images = ImageSerializer(many=True)
-
-    # status = serializers.CharField(read_only=True)
 
     class Meta:
         model = Pereval
