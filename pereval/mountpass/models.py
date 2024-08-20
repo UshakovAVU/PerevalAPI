@@ -1,12 +1,14 @@
 from django.db import models
 
+from .file_address import take_image_file_path
+
 
 class HikeUser(models.Model):
     email = models.CharField(max_length=50)
-    fam = models.CharField(max_length=50, blank=True)
-    name = models.CharField(max_length=50, blank=True)
-    otc = models.CharField(max_length=50, blank=True)
-    phone = models.CharField(max_length=50, blank=True)
+    fam = models.CharField(max_length=50, blank=True, verbose_name='Фамилия')
+    name = models.CharField(max_length=50, blank=True, verbose_name='Имя')
+    otc = models.CharField(max_length=50, blank=True, verbose_name='Отчество')
+    phone = models.CharField(max_length=50, blank=True, verbose_name='Телефон')
 
 
 class Coords(models.Model):
@@ -52,6 +54,7 @@ class Pereval(models.Model):
 
 
 class Image(models.Model):
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True, related_name='images')
-    title = models.CharField(max_length=50, blank=True)
-    image = models.CharField(max_length=255, blank=True, null=True)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True, null=True, related_name='images')
+    title = models.CharField(max_length=50, verbose_name="Снимок", blank=True, null=True)
+    image = models.ImageField(upload_to=take_image_file_path,  max_length=255, blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
