@@ -5,10 +5,10 @@ from .file_address import take_image_file_path
 
 class HikeUser(models.Model):
     email = models.CharField(max_length=50)
-    fam = models.CharField(max_length=50, blank=True, verbose_name='Фамилия')
-    name = models.CharField(max_length=50, blank=True, verbose_name='Имя')
-    otc = models.CharField(max_length=50, blank=True, verbose_name='Отчество')
-    phone = models.CharField(max_length=50, blank=True, verbose_name='Телефон')
+    fam = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True)
+    otc = models.CharField(max_length=50, blank=True)
+    phone = models.CharField(max_length=50, blank=True)
 
 
 class Coords(models.Model):
@@ -43,7 +43,7 @@ class Pereval(models.Model):
     ]
 
     beauty_title = models.CharField(max_length=50, blank=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, blank=True)
     other_titles = models.CharField(max_length=128, blank=True)
     connect = models.CharField(max_length=128, blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
