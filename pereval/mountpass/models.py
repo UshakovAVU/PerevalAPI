@@ -1,5 +1,4 @@
 from django.db import models
-
 from .file_address import take_image_file_path
 
 
@@ -55,6 +54,6 @@ class Pereval(models.Model):
 
 class Image(models.Model):
     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True, null=True, related_name='images')
-    title = models.CharField(max_length=50, verbose_name="Снимок", blank=True, null=True)
-    image = models.ImageField(upload_to=take_image_file_path,  max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=50, verbose_name="Shot", blank=True, null=True)
+    image = models.ImageField(upload_to=take_image_file_path, verbose_name='Picture', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True, null=True)
