@@ -24,7 +24,7 @@ class PerevalApiTestCase(APITestCase):
             connect='',
             user=HikeUser.objects.create(
                 email='perg@example.com',
-                fam='Перов',
+                fam='Анисимов',
                 name='Владимиир',
                 otc='Петрович',
                 phone='+13337772548'
@@ -86,7 +86,7 @@ class PerevalApiTestCase(APITestCase):
             connect='Долина Чулышмана',
             user=HikeUser.objects.create(
                 email='perg@example.com',
-                fam='Перов',
+                fam='Анисимов',
                 name='Владимиир',
                 otc='Петрович',
                 phone='+13337772548'
@@ -166,7 +166,6 @@ class PerevalApiTestCase(APITestCase):
             ]
         }
 
-
         json_data = json.dumps(data)
         response = self.client.patch(path=url, content_type='application/json', data=json_data)
         self.assertEqual(response.data['state'], '0')
@@ -209,7 +208,6 @@ class PerevalApiTestCase(APITestCase):
         json_data = json.dumps(data)
         response = self.client.patch(url, data=json_data, content_type='application/json')
         self.assertEqual(response.data['state'], '1')
-
 
     def test_patch_pereval_status(self):
         url = reverse('pereval-detail', args=(self.pereval_2.id,))
@@ -304,7 +302,7 @@ class PerevalSerializerTestCase(TestCase):
             add_time='21-08-2024 04:05:02',
             user=HikeUser.objects.create(
                 email='perg@example.com',
-                fam='Перов',
+                fam='Анисимов',
                 name='Владимир',
                 otc='Петрович',
                 phone='+13337772548'
@@ -340,7 +338,7 @@ class PerevalSerializerTestCase(TestCase):
             'user': {
                 'email': 'perg@example.com',
                 'phone': '+13337772548',
-                'fam': 'Перов',
+                'fam': 'Анисимов',
                 'name': 'Владимир',
                 'otc': 'Петрович',
             },
