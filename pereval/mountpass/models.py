@@ -1,4 +1,5 @@
 from django.db import models
+from .file_address import take_image_file_path
 
 
 class HikeUser(models.Model):
@@ -41,7 +42,7 @@ class Pereval(models.Model):
     ]
 
     beauty_title = models.CharField(max_length=50, blank=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, blank=True)
     other_titles = models.CharField(max_length=128, blank=True)
     connect = models.CharField(max_length=128, blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
@@ -52,6 +53,7 @@ class Pereval(models.Model):
 
 
 class Image(models.Model):
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True, related_name='images')
-    title = models.CharField(max_length=50, blank=True)
-    image = models.CharField(max_length=255, blank=True, null=True)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, blank=True, null=True, related_name='images')
+    title = models.CharField(max_length=50, verbose_name="Shot", blank=True, null=True)
+    image = models.ImageField(upload_to=take_image_file_path, verbose_name='Picture', blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
