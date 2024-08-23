@@ -139,7 +139,7 @@ _Метод:_
 ***
 #### _**Проект опубликован на хостинге pythonanywhere.com**_
 
-API Pereval: <u>https://mrolegis.pythonanywhere.com/Pereval/</u><br>
+API Pereval: <u>https://mrolegis.pythonanywhere.com/api/submitdata</u><br>
 Документация swagger: <u>https://mrolegis.pythonanywhere.com/swagger/</u><br>
 Документация redoc: <u>https://mrolegis.pythonanywhere.com/redoc/</u>
 ***
