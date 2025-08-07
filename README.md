@@ -131,7 +131,7 @@ _Метод:_
 #### _**Документация сгенерирована с помощью пакета drf-yasg**_
 
 Документация swagger:<u>https://127.0.0.1:8000/swagger</u><br>
-Документация redoc: <u>http://127.0.0.1:8000/redoc/</u>
+Документация redoc: <u>http://127.0.0.1:8000/redoc/</u>                                    
 ***
 
 В случае отправления запроса на создание записи пользователем, уже находящимся в БД, новый пользователь не создается.
@@ -139,9 +139,9 @@ _Метод:_
 ***
 #### _**Проект опубликован на хостинге pythonanywhere.com**_
 
-API Pereval: <u>https://mrolegis.pythonanywhere.com/api/submitdata</u><br>
-Документация swagger: <u>https://mrolegis.pythonanywhere.com/swagger/</u><br>
-Документация redoc: <u>https://mrolegis.pythonanywhere.com/redoc/</u>
+API Pereval: <u>https://cz45483.tw1.ru/api/submitdata/</u><br>
+Документация swagger: <u>https://cz45483.tw1.ru/swagger/</u><br>
+Документация redoc: <u>https://cz45483.tw1.ru/redoc/</u><br>
 ***
 #### _**Отчет о покрытии тестами:**_
 
