@@ -148,6 +148,11 @@ API Pereval: <u>https://cz45483.tw1.ru/api/submitdata/</u><br>
 ![](https://github.com/UshakovAVU/PerevalAPI/blob/master/pereval/coverage.jpg?raw=true)
 
 Cтруктура проекта:
+
 Виртуальная стажировка
+
 Pereval Rest API
 
+![](https://github.com/UshakovAVU/PerevalAPI/blob/master/pereval/%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%201_1.jpg?raw=true)
+
+![](https://github.com/UshakovAVU/PerevalAPI/blob/master/pereval/%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%201_2.jpg?raw=true)
