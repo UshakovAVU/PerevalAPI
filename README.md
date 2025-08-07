@@ -145,5 +145,5 @@ API Pereval: <u>https://cz45483.tw1.ru/api/submitdata/</u><br>
 ***
 #### _**Отчет о покрытии тестами:**_
 
-![](https://github.com/oleg-benet/PerevalAPI/blob/submitData/pereval/coverage.jpg?raw=true)
+![](https://github.com/UshakovAVU/PerevalAPI/blob/master/pereval/coverage.jpg?raw=true)
 
