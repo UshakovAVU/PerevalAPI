@@ -9,20 +9,24 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import psycopg2
 
+# Загрузка переменных окружения
 load_dotenv()
 
+# Базовые настройки проекта
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-^b48k3u1s728@-1*d8g26_!7*c%ucz$pf9v4r@5s2jx$$53hny'
+# Основные параметры безопасности
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+# Установленные приложения
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,8 +38,10 @@ INSTALLED_APPS = [
     'django_filters',
     'mountpass.apps.MountpassConfig',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -46,9 +52,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Настройки URL и шаблонов
 ROOT_URLCONF = 'pereval.urls'
-
-SITE = 1
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -68,25 +74,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pereval.wsgi.application'
 
+# Настройки базы данных PostgreSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+        'OPTIONS': {},
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'pereval',
-#         'USER': os.getenv('FSTR_DB_LOGIN'),
-#         'PASSWORD': os.getenv('FSTR_DB_PASS'),
-#         'HOST': os.getenv('FSTR_DB_HOST'),
-#         'PORT': os.getenv('FSTR_DB_PORT'),
-#
-#     }
-# }
-
+# Настройки валидации паролей
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -102,28 +103,138 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Настройки локализации и времени
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# Настройки статических и медиа файлов
 STATIC_URL = '/static/'
-
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static"
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / 'staticfiles'
+]
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+# Настройки REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny' if DEBUG else 'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+
+    'UNAUTHENTICATED_USER': None,
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'TEST_REQUEST_renderer_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+    ],
+
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S%z',
+    'DATE_FORMAT': '%Y-%m-%d',
+}
+
+# Настройки для Swagger
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'DOC_EXPANSION': 'none',
+    'DEFAULT_INFO': {
+        'title': 'Pereval API',
+        'version': '1.0.0',
+        'description': 'API для работы с данными перевалов'
+    }
+}
+
+# Настройки для CORS
+CORS_ORIGIN_ALLOW_ALL = DEBUG
+CORS_ALLOW_CREDENTIALS = True
+
+# Настройки для обработки файлов
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+
+# Настройки для email
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 1025))
+
+# Настройки для кэширования
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake'
+    }
+}
+
+# Настройки для интернационализации
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
+# Настройки для админской панели
+ADMIN_SITE_HEADER = 'Pereval Admin'
+ADMIN_SITE_TITLE = 'Pereval Admin Portal'
+ADMIN_INDEX_TITLE = 'Welcome to Pereval Admin'
+
+# Настройки логирования
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
 }
