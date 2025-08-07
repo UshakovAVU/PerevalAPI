@@ -147,3 +147,43 @@ API Pereval: <u>https://cz45483.tw1.ru/api/submitdata/</u><br>
 
 ![](https://github.com/UshakovAVU/PerevalAPI/blob/master/pereval/coverage.jpg?raw=true)
 
+Cтруктура проекта:
+Виртуальная стажировка
+Pereval Rest API
+(venv) PS C:\Users\Reanimator\PyCharmMiscProject\PerevalAPI\pereval/
+│
+├── media/
+│   ├── pereval_27/
+│	├── P1010090.JPG
+│
+├── mountpass/
+│   ├── migrations/
+│         ├── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── file_address.py
+│   ├── models.py 
+│   ├── serializers.py
+│   ├── tests.py
+│   └── views.py
+│ 
+├── pereval/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── yasg.py
+│
+├── static/
+│   ├── admin/
+│   ├── assets/
+│   ├── css/
+│   └── js/
+│   
+├── .gitignore
+├── coverage.jpg
+├── db.sqlite3
+├── manage.py
+└──  requirements.txt
