@@ -1,6 +1,6 @@
 ![](https://kartinki.pics/uploads/posts/2022-12/1671734665_kartinkin-net-p-kartinki-turizm-dlya-detei-pinterest-56.png)
 
-  Виртуальная стажировка
+  Итоговая аттестация по профессии «Python-разработчик»
 -
  ### Pereval Rest API
 
